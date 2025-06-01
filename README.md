@@ -31,7 +31,7 @@ This project explores distributional semantics to analyze and compare dialogue s
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/distributional-semantics-dialogue.git
+   git clone https://github.com/Aishuwu/distributional-semantics-dialogue.git
    cd distributional-semantics-dialogue
    ```
 
