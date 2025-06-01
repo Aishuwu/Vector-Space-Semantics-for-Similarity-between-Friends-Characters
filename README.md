@@ -1,8 +1,8 @@
-# Distributional Semantics for Character Dialogue Similarity
+# Distributional Semantics: Character Dialogue Similarity Analysis
 
 ## Introduction
 
-This project focuses on analyzing character dialogue using distributional semantics to capture and compare linguistic patterns among characters from a TV series. By generating vector representations of characters based on their spoken dialogue, the system assesses semantic similarity between known characters and unseen test characters using cosine similarity and ranking metrics. The pipeline incorporates advanced preprocessing, linguistic feature engineering, and contextual embedding techniques.
+This project explores distributional semantics to analyze and compare dialogue styles among fictional characters based on their spoken lines. By converting dialogue into vector space representations using token-level and contextual linguistic features, the system evaluates semantic similarity between characters. This methodology offers insights into character roles, relationships, and linguistic uniqueness.
 
 ## Table of Contents
 
@@ -12,112 +12,121 @@ This project focuses on analyzing character dialogue using distributional semant
 - [Usage](#usage)
 - [Dataset](#dataset)
 - [Methodology](#methodology)
-- [Experiments & Results](#experiments--results)
+- [Experiments & Evaluation](#experiments--evaluation)
+- [Results](#results)
 - [Insights](#insights)
 - [Dependencies](#dependencies)
 - [License](#license)
 
 ## Features
 
-- Token-level preprocessing: lemmatization, stopword and punctuation removal.
-- Feature extraction: N-grams, POS tagging, TF-IDF.
-- Scene-level context embedding: incorporating surrounding dialogue.
-- Character vector generation from dialogue corpora.
-- Similarity analysis using cosine distance.
-- Evaluation with mean rank, cosine similarity, and accuracy.
+- Text preprocessing with lemmatization, stopword removal, and POS tagging.
+- Flexible n-gram and TF-IDF vectorization for character dialogues.
+- Option to incorporate contextual dialogue from surrounding characters.
+- Cosine similarity scoring between character vectors.
+- Evaluation via mean rank, accuracy, and confusion matrix visualizations.
+- Interactive error analysis with heatmaps and sorted similarity matrices.
 
 ## Installation
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/Aishuwu/distributional-semantics-dialogue.git
+   git clone https://github.com/your-username/distributional-semantics-dialogue.git
    cd distributional-semantics-dialogue
    ```
 
-2. Create and activate a virtual environment:
+2. Create and activate a virtual environment (optional):
    ```bash
    python -m venv env
-   source env/bin/activate  # On Windows: env\Scripts\activate
+   source env/bin/activate  # Windows: env\Scripts\activate
    ```
 
-3. Install dependencies:
+3. Install the dependencies:
    ```bash
    pip install -r requirements.txt
    ```
 
 ## Usage
 
-1. Extract the ZIP archive and open the project notebook or scripts.
+1. Open and run the notebook:
+   ```
+   NLP_Assignment_2_distributional_semantics.ipynb
+   ```
 
-2. Run the preprocessing and feature extraction functions to build document-term matrices.
-
-3. Train the model and compute similarity scores between training and held-out character vectors.
-
-4. Generate evaluation metrics:
-   - Cosine similarity heatmaps
-   - Character vector ranking results
-   - Accuracy of top-1 matches
+2. Follow the steps:
+   - Load and preprocess character dialogue data.
+   - Generate vector representations for characters using TF-IDF.
+   - Compute cosine similarities and rank characters.
+   - Evaluate performance based on mean rank, cosine similarity, and classification accuracy.
 
 ## Dataset
 
-- Dialogue data is grouped by character and scene.
-- Each character's dialogue is used to generate a vector based on lexical and contextual features.
-- Evaluation is performed by holding out one character instance and comparing it to others.
+- Dialogue dataset grouped by speaker and scene.
+- Each document represents one character’s combined speech across scenes.
+- Evaluation includes identifying a held-out character using semantic similarity to training vectors.
 
 ## Methodology
 
 ### Preprocessing
-- **Tokenization** using NLTK
-- **Lowercasing**
-- **Punctuation and Stopword Removal**
-- **Lemmatization** using WordNet
+- Convert text to lowercase.
+- Remove punctuation and stopwords.
+- Apply lemmatization using NLTK’s WordNetLemmatizer.
+- Optionally filter by POS tags for more targeted features.
 
 ### Feature Extraction
-- N-gram vectorization (uni- and bigrams)
-- TF-IDF transformation
-- POS-tag filtering (optional)
+- Vectorize dialogues using `CountVectorizer` or `TfidfVectorizer`.
+- Use `ngram_range` for unigram or bigram feature expansion.
+- Apply IDF weighting for more informative term representation.
 
 ### Context Integration
-- Adds other characters’ dialogue from the same scene to enrich the target character’s vector.
+- Surrounding character dialogue (within the same scene) is added to simulate richer discourse context.
+- Improves vector generalization and similarity clustering.
 
-### Similarity Computation
-- Cosine similarity matrix is calculated between training and held-out vectors.
-- Characters are ranked by proximity.
+### Evaluation
+- For each held-out character vector, rank all training characters based on cosine similarity.
+- Metrics:
+  - **Mean Rank**: Lower is better.
+  - **Cosine Similarity**: Higher is better.
+  - **Accuracy**: Top-1 match correctness.
 
-## Experiments & Results
+## Experiments & Evaluation
 
-| Stage                         | Mean Rank | Cosine Similarity | Accuracy |
-|------------------------------|-----------|-------------------|----------|
-| Initial Run                  | 4.2       | 0.891             | 10%      |
-| After Preprocessing          | 3.8       | 0.911             | 30%      |
-| After Feature Extraction     | 2.2       | 0.907             | 50%      |
-| After Adding Context         | 1.7       | 0.960             | 70%      |
-| Final Grid Search Model      | 1.1       | 0.960             | 90%      |
+| Configuration            | Mean Rank | Cosine Similarity | Accuracy |
+|--------------------------|-----------|-------------------|----------|
+| Basic Model              | 4.2       | 0.891             | 10%      |
+| With Preprocessing       | 3.8       | 0.911             | 30%      |
+| With N-Gram + IDF        | 2.2       | 0.907             | 50%      |
+| With Context Integration | 1.7       | 0.960             | 70%      |
+| Grid Search Optimization | 1.1       | 0.960             | 90%      |
 
-- **Best Parameters**: `ngram_range=(1,2)`, `use_idf=True`
+## Results
+
+- Final model achieved **90% accuracy** with top-1 ranking on test character dialogue.
+- Contextual dialogue dramatically improved semantic coherence in character vectors.
+- POS-filtering and bigram analysis helped separate close characters.
 
 ## Insights
 
-- Close similarity observed between characters with strong dialogue overlap (e.g., Chandler and Joey).
-- Distinct styles observed for outliers (e.g., generic “Other_Male” or “Other_None”).
-- Contextual dialogue significantly improves model performance by reducing rank and increasing accuracy.
+- Characters with frequent shared scenes and linguistic patterns cluster closely.
+- Outlier or generic characters (e.g., "Other_None") rank poorly, as expected.
+- Incorporating context significantly boosts the ability to distinguish similar speakers.
 
 ## Dependencies
 
 ```
-numpy
-scikit-learn
 nltk
+numpy
+pandas
+scikit-learn
 matplotlib
 seaborn
-pandas
 ```
 
-Install them via:
+Install with:
 ```bash
 pip install -r requirements.txt
 ```
 
 ## License
 
-This project is made available for academic and non-commercial research use.
+This project is available for academic and research use only.
